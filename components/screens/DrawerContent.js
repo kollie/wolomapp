@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { View, StyleSheet } from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
+import { View, StyleSheet, AsyncStorage } from 'react-native'
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
     Avatar,
@@ -15,9 +15,13 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer'
-import { AuthContext } from '../../Constants';
+import { connect } from 'react-redux';
 
-const DrawerContent = (props) => {
+
+import { signOut } from '../store/actions/index'
+
+
+const DrawerContent = ({props, onLogOut, isLoading, email, name}) => {
 
     const [isDarkTheme, setIsDarkTheme] = useState(false)
 
@@ -25,7 +29,14 @@ const DrawerContent = (props) => {
         setIsDarkTheme(!isDarkTheme)
     }
 
-    const { signOut } = useContext(AuthContext)
+    if (isLoading) {
+        return (
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <ActivityIndicator size='large' />
+          </View>
+        )
+      }
+
 
     return (
         <View style={{flex: 1}}>
@@ -40,8 +51,8 @@ const DrawerContent = (props) => {
                                 size={50}
                             />
                             <View style={{marginLeft: 15, flexDirection: 'column'}}>
-                                <Title style={{...styles.title}}>Israel Kollie</Title>
-                                <Caption style={{...styles.caption}}>Programmer</Caption>
+                                <Title style={{...styles.title}}>{name}</Title>
+                                <Caption style={{...styles.caption}}>{email}</Caption>
                             </View>
                         </View>
 
@@ -118,14 +129,29 @@ const DrawerContent = (props) => {
                         <Icons name='exit-to-app' color={color} size={size} />
                     )}
                     label='Sign Out'
-                    onPress={() => {signOut()}}
+                    onPress={() => {onLogOut()}}
                 />
             </Drawer.Section>
         </View>
     )
 }
 
-export default DrawerContent
+const mapStateToProps = state => {
+    return {
+      isLoading: state.loading.isLoading,
+      email: state.auth.email,
+      name: state.auth.name
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onLogOut: () => dispatch(signOut())
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent)
+
 
 const styles = StyleSheet.create({
     drawerContent: {

@@ -1,11 +1,15 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 
-const Notifications = () => {
+const Notifications = ({navigation}) => {
+  navigation.setOptions({ tabBarVisible: false })
     return (
-      <View style={{ ...styles.container }}>
+      <Animatable.View style={{ ...styles.container }}
+      animation='fadeInUpBig'
+      >
         <Text>Profile Screen</Text>
-      </View>
+      </Animatable.View>
     );
 }
 
@@ -15,6 +19,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1, 
         alignItems: 'center', 
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#f0f0f0'
     }
 })
