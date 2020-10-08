@@ -1,22 +1,143 @@
-import React from 'react'
-import { View, Text, Button, StatusBar, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StatusBar, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import SafeAreaView  from 'react-native-safe-area-view' 
-import { Feather, AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper'
 import * as Animatable from 'react-native-animatable'
 import { LOGIN_VIEW_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../Constants';
+import MapView from 'react-native-maps';
 
 
 const Home = ({ navigation }) => {
+
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+      onPress={() => navigation.navigate('Details')}
+      style={{margin: 20}}
+      >
+        <Avatar.Image source={{ uri: 'https://picsum.photos/700' }}
+        size={35}
+        />
+      </TouchableOpacity>
+    ),
+  });
+
+  const topButton = <FontAwesome5 name="times-circle" size={10} color="black" />
+
+  const location =  {
+    "latitude": 6.307803528135293,
+    "longitude": -10.797369133410283,
+  }  
+
+  const location2 =  {
+    "latitude": 6.317628582099887,
+    "longitude": -10.812342600973123,
+  }
+
+  
+
     return (
       <SafeAreaView style={{ ...styles.container }}>
         <StatusBar barStyle="dark-content" backgroundColor="#ecf0f1" />
         <ScrollView>
-          <Text>Home Screen</Text>
-          <Button title='Go to Details'
-            onPress={() => navigation.navigate('Details')} 
-          />
+          <Card
+          style={{backgroundColor: '#f1f1f1', marginBottom: 10}}
+          >
+            <Card.Title title="Eric Flomo" 
+            subtitle={
+              <Text>
+                West Point | 4mins <FontAwesome5 name="times-circle" size={10} color="#ff5757" />
+              </Text>
+          } 
+            left={props =>
+              <Avatar.Image {...props} source={{
+                uri: 'https://picsum.photos/700'
+              }}/>
+            } />
+            
+            <MapView
+              initialRegion={{
+                ...location,
+                latitudeDelta: 0.0122,
+                longitudeDelta:
+                  Dimensions.get("window").width /
+                  Dimensions.get("window").height *
+                  0.0122
+              }}
+              style={styles.map}
+            >
+              <MapView.Marker coordinate={location} />
+            </MapView>
+           
+            <Card.Cover source={{ uri: 'https://picsum.photos/700' }} 
+            style={{marginTop: 1}}
+            />
+            <Card.Actions>
+              <MaterialIcons name="comment" size={30} color="#03989e" />
+            </Card.Actions>
+            <Card.Content>
+              <Paragraph
+              style={{
+                fontFamily: "HelveticaNeue",
+                color: "#52575D"
+              }}
+              >Pile of dirt needs quick attention.
+              </Paragraph>
+            </Card.Content>
+            
+          </Card>
+
+          <Card
+          style={{backgroundColor: '#f1f1f1'}}
+          >
+            <Card.Title title="Momo Weah" 
+            subtitle={
+              <Text>
+                Redlignt Market | 1day <Ionicons name="ios-checkmark-circle-outline" size={10} color="#03989e" />
+              </Text>
+          }
+            left={props =>
+              <Avatar.Image {...props} source={{
+                uri: 'https://picsum.photos/700'
+              }}/>
+            } />
+            
+            <MapView
+              initialRegion={{
+                ...location2,
+                latitudeDelta: 0.0122,
+                longitudeDelta:
+                  Dimensions.get("window").width /
+                  Dimensions.get("window").height *
+                  0.0122
+              }}
+              style={styles.map}
+            >
+              <MapView.Marker coordinate={location2} />
+            </MapView>
+           
+            <Card.Cover source={{ uri: 'https://picsum.photos/700' }} 
+            style={{marginTop: 1}}
+            />
+            <Card.Actions>
+              <MaterialIcons name="comment" size={30} color="#03989e" />
+            </Card.Actions>
+            <Card.Content>
+              <Paragraph
+              style={{
+                fontFamily: "HelveticaNeue",
+                color: "#52575D"
+              }}
+              >Pile of dirt needs quick attention.
+              </Paragraph>
+            </Card.Content>
+            
+          </Card>
+          
         </ScrollView>
-        
+         
         <TouchableOpacity style={{...styles.addButton}}
         onPress={() => navigation.navigate('Notifications')}
         >
@@ -30,15 +151,19 @@ export default Home
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
-    alignItems: 'center', 
-    justifyContent: 'center',
-    backgroundColor: '#f0f0f0'
+    flex: 1,
+    backgroundColor: '#fff'
 },
   addButton: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
     right: 20,
     zIndex: 100
-  }
+  },
+  map: {
+    flex: 1,
+    height: 250,
+    borderWidth: 0.2,
+    borderColor: '#03989e'
+  },
 })

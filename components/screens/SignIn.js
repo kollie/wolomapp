@@ -23,9 +23,9 @@ import { AuthContext } from '../../Constants';
 import Users from '../../Users'
 
 
-const SignIn = ({navigation, onLogin, isLoading, getToken}) => {
+const SignIn = ({navigation, onLogin, isLoading}) => {
 
-  const firstRender = useRef(true)
+    const firstRender = useRef(true)
   
     
     const [disable, setDisabled] = useState(true)
@@ -65,13 +65,6 @@ const SignIn = ({navigation, onLogin, isLoading, getToken}) => {
       setDisabled(passwordValidation())
     }, [email, name, password]) 
 
-
-    // useEffect(() => {
-        
-    //   setTimeout(() => {
-    //       getToken()
-    //   }, 1000)
-    // },[]) 
     
     
     const emailValidation = () => {

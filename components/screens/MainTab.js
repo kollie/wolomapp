@@ -73,7 +73,7 @@ const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator screenOptions={{
         headerStyle: {
             backgroundColor: '#f0f0f0',
-            height: 100
+            height: 90
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -89,15 +89,6 @@ const HomeStackScreen = ({navigation}) => (
                 fontSize: 25, 
                 margin: 10, 
                 color: '#03989e'}}>Wolomapp</Text>
-            ),
-            headerRight: () => (
-              <MaterialIcons name="account-circle" size={30} 
-                color='#777777'
-                style={{
-                    margin: 10
-                }}
-                onPress={() => navigation.navigate('Details')}
-                ></MaterialIcons>
             )
         }} />
         <HomeStack.Screen name='Details' component={Details} options={{
@@ -119,7 +110,7 @@ const HomeStackScreen = ({navigation}) => (
         )
         }} />
         <HomeStack.Screen name='Notifications' component={Notifications} options={{
-          title: '',
+          title: 'Share an issue',
           headerLeft: () => (
             <Text onPress={() => navigation.navigate('Home')} style={{
               margin: 10,
@@ -138,15 +129,15 @@ const HomeStackScreen = ({navigation}) => (
 const ProfileStackScreen = ({navigation}) => (
     <ProfileStack.Navigator screenOptions={{
         headerStyle: {
-            backgroundColor: '#03989e'
+            backgroundColor: '#f0f0f0'
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#03989e',
         headerTitleStyle: {
             fontWeight: '700'
         }
     }}>
         <ProfileStack.Screen name='Profile' component={Profile} options={{
-            title: 'Profile'
+            title: 'Wolomapp'
         }} />
     </ProfileStack.Navigator>
 )

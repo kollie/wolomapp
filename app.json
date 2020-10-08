@@ -17,7 +17,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow Wolomapp to use your camera",
+        "NSPhotoLibraryUsageDescription": "Allow Wolomapp to access your photo library",
+        "NSPhotoLibraryAddUsageDescription": "Allow Wolomapp to access your photo library"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
