@@ -18,30 +18,21 @@ import { retrieveToken } from './components/store/actions/index'
 import Details from './components/screens/Details';
 import Notifications from './components/screens/Notifications';
 
-const Drawer = createDrawerNavigator()
-
-const DrawerRender = () => {
-  return (
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-        <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-    </Drawer.Navigator>
-  );
-}
 
 const AppEntry = ({ isLoading, userToken, getToken }) => {
-  
+
 
   useEffect(() => {
-        
+
     setTimeout(() => {
-        getToken()
+      getToken()
     }, 1000)
-  },[]) 
+  }, [])
 
 
   if (isLoading) {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size='large' />
       </View>
     )
@@ -49,13 +40,13 @@ const AppEntry = ({ isLoading, userToken, getToken }) => {
 
 
   return (
-      <SafeAreaProvider>
-          <NavigationContainer>
-            { userToken !== null ? (
-            <MainTabScreen  />
-            ) : <RootStackScreen /> }
-        </NavigationContainer>
-      </SafeAreaProvider>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {userToken !== null ? (
+          <MainTabScreen />
+        ) : <RootStackScreen />}
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

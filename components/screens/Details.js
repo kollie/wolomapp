@@ -1,41 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { Avatar } from "react-native-paper";
-import { signOut } from "../store/actions";
+import { signOut, refreshToken, updateProfilePic } from "../store/actions";
 import { connect } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Modal, Portal, Provider } from 'react-native-paper'
+import * as Animatable from 'react-native-animatable'
+import PickImage from "../utils/PickImage";
+import { LinearGradient } from 'expo-linear-gradient'
+import { getUserIssues } from "../store/actions/Auth";
 
-const Details = ({ onLogOut, isLoading, name }) => {
+const Details = ({ navigation, onLogOut, isLoading,
+    name, onTokenRefresh, email, id,
+    onUpdatePic, token, picture, count }) => {
 
 
-  if (isLoading) {
-    return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <ActivityIndicator size='large' />
-      </View>
-    )
-  }
+    const [visible, setVisible] = useState(false);
+
+    const showModal = () => setVisible(true);
+
+    const hideModal = () => setVisible(false);
+
+    const [dataSync, setDataSync] = useState([]);
+
+    const [data, setData] = useState({
+        images: null,
+        imageValid: false,
+    })
+
+    navigation.setOptions({
+
+        headerBackTitle: (<Text style={{ fontSize: 30, margin: 10 }}>{name}</Text>),
+        headerRight: () => (
+            <MaterialIcons name="edit" size={26}
+                color='#777777'
+                style={{
+                    margin: 10
+                }}
+                onPress={() => { navigation.navigate('Details') }}
+            ></MaterialIcons>
+        )
+
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const issues = await getUserIssues(token, id)
+            console.log(issues)
+            setDataSync(issues)
+        };
+        fetchData()
+    }, []);
+
+    useEffect(() => {
+
+        setTimeout(() => {
+            onTokenRefresh(email)
+        }, 1000)
+    }, [])
+
+    const imagePickedHandler = images => {
+        setData({
+            ...data,
+            images: images,
+            imageValid: true
+        })
+    };
+
+    const handSave = () => {
+        if (!data.imageValid) {
+            Alert.alert('No image', 'You must select an image', [
+                { text: 'Okay' }
+            ]);
+            return
+        }
+
+        onUpdatePic(email, id, data.images.uri.base64, token)
+        navigation.navigate('Details')
+    }
+
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <ActivityIndicator size='large' />
+            </View>
+        )
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ alignSelf: "center" }}>
                     <View style={styles.profileImage}>
-                        <Avatar.Image source={{
-                          uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScDstgJkG45NsAFs4jdsFAw7ChW2MBHkjGhw&usqp=CAU'
-                        }} style={{...styles.image, 
-                          borderColor: '#03989e',
-                          borderWidth: 2,
-                          backgroundColor: '#fff',
-                        }} resizeMode="center" size={200} />
+
+                        {
+                            picture != null ?
+                                <Avatar.Image source={{
+                                    uri: picture || `https://wolomapp.s3.amazonaws.com/${picture}`
+                                }} style={{
+                                    ...styles.image,
+                                    borderColor: '#03989e',
+                                    borderWidth: 2,
+                                    backgroundColor: '#fff',
+                                }} resizeMode="center" size={147} />
+                                :
+                                <Avatar.Icon
+                                    style={{
+                                        ...styles.image,
+                                        borderColor: '#03989e',
+                                        borderWidth: 2,
+                                        backgroundColor: '#fff',
+                                    }}
+                                    size={240} icon="account-circle" />
+                        }
+
+
                     </View>
-                    {/* <View style={styles.dm}>
-                        <MaterialIcons name="chat" size={18} color="#DFD8C8"></MaterialIcons>
-                    </View>
-                    <View style={styles.active}></View> */}
-                    <View style={{...styles.add, backgroundColor: '#03989e'}}>
-                        <Ionicons name="ios-add" size={30} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}></Ionicons>
+
+                    <View style={{ ...styles.add, backgroundColor: '#03989e' }}>
+                        <Ionicons
+                            onPress={showModal}
+                            name="ios-add" size={30} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}>
+                        </Ionicons>
                     </View>
                 </View>
 
@@ -46,85 +134,95 @@ const Details = ({ onLogOut, isLoading, name }) => {
 
                 <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>10</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{count}</Text>
                         <Text style={[styles.text, styles.subText]}>Shared</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>3</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>0</Text>
                         <Text style={[styles.text, styles.subText]}>Resolved</Text>
                     </View>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>6</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>0</Text>
                         <Text style={[styles.text, styles.subText]}>Pending</Text>
                     </View>
                 </View>
 
                 <View style={{ marginTop: 32 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={{
-                              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScDstgJkG45NsAFs4jdsFAw7ChW2MBHkjGhw&usqp=CAU'
-                            }} style={styles.image} resizeMode="cover"></Image>
-                        </View>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={{
-                              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScDstgJkG45NsAFs4jdsFAw7ChW2MBHkjGhw&usqp=CAU'
-                            }} style={styles.image} resizeMode="cover"></Image>
-                        </View>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={{
-                              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScDstgJkG45NsAFs4jdsFAw7ChW2MBHkjGhw&usqp=CAU'
-                            }} style={{...styles.image}} resizeMode="cover"></Image>
-                        </View>
+
+                        {
+                            dataSync.map((item, key) => {
+                                return (
+                                    <View key={key} style={styles.mediaImageContainer}>
+                                        <Image source={{
+                                            uri: `https://wolomapp.s3.amazonaws.com/${item.picture}`
+                                        }} style={styles.image} resizeMode="cover"></Image>
+                                    </View>
+                                )
+                            })
+                        }
+
                     </ScrollView>
                     <View style={styles.mediaCount}>
-                        <Text style={[styles.text, { fontSize: 24, color: "#DFD8C8", fontWeight: "300" }]}>10</Text>
+                        <Text style={[styles.text, { fontSize: 24, color: "#DFD8C8", fontWeight: "300" }]}>{count}</Text>
                         <Text style={[styles.text, { fontSize: 12, color: "#DFD8C8", textTransform: "uppercase" }]}>Issues</Text>
                     </View>
                 </View>
                 <Text style={[styles.subText, styles.recent]}>Keep sharing to keep your community clean and safe</Text>
-                <TouchableOpacity 
-                style={{...styles.recent, alignItems: 'center', justifyContent: 'center', height: 50, width: 300, borderWidth: 1, borderRadius: 70, borderColor: '#03989e'}}
-                onPress={() => onLogOut()}
+                <TouchableOpacity
+                    style={{ ...styles.recent, alignItems: 'center', justifyContent: 'center', height: 50, width: 300, borderWidth: 1, borderRadius: 70, borderColor: '#03989e' }}
+                    onPress={() => onLogOut()}
                 >
-                  <Text style={{color: '#03989e', fontSize: 20}}>Sign Out</Text>
+                    <Text style={{ color: '#03989e', fontSize: 20 }}>Sign Out</Text>
                 </TouchableOpacity>
-                <View style={{ alignItems: "center" }}>
-                    {/* <View style={styles.recentItem}>
-                        <View style={styles.activityIndicator}></View>
-                        <View style={{ width: 250 }}>
-                            <Text style={[styles.text, { color: "#41444B", fontWeight: "300" }]}>
-                                Started following <Text style={{ fontWeight: "400" }}>Jake Challeahe</Text> and <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
-                            </Text>
-                        </View>
-                    </View> */}
 
-                    {/* <View style={styles.recentItem}>
-                        <View style={styles.activityIndicator}></View>
-                        <View style={{ width: 250 }}>
-                            <Text style={[styles.text, { color: "#41444B", fontWeight: "300" }]}>
-                                Started following <Text style={{ fontWeight: "400" }}>Luke Harper</Text>
-                            </Text>
-                        </View>
-                    </View> */}
-                </View>
+                <Modal visible={visible} onDismiss={hideModal}
+                    contentContainerStyle={{
+                        backgroundColor: '#41444B', height: '60%', width: '80%',
+                        left: '10%', bottom: '5%', padding: 20, paddingBottom: 100,
+                    }}
+                >
+                    <PickImage onImagePicked={imagePickedHandler} />
+                    <TouchableOpacity
+                        style={{ ...styles.signIn, marginTop: 10 }}
+                        onPress={() => { handSave() }}
+                        disabled={!data.imageValid}
+                    >
+                        <LinearGradient
+                            colors={['#08d4c4', '#01ab9d']}
+                            style={styles.signIn}
+                        >
+                            <Text style={[styles.textSign, {
+                                color: '#fff',
+                                fontSize: 20
+                            }]}>Save</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
+                </Modal>
+
             </ScrollView>
         </SafeAreaView>
     );
 }
 
 const mapStateToProps = state => {
-  return {
-    isLoading: state.loading.isLoading,
-    email: state.auth.email,
-    name: state.auth.name
-  };
+    return {
+        isLoading: state.loading.isLoading,
+        name: state.auth.name,
+        email: state.auth.email,
+        id: state.auth.userId,
+        token: state.auth.userToken,
+        picture: state.auth.picture,
+        count: state.auth.issue_count
+    };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    onLogOut: () => dispatch(signOut())
-  };
+    return {
+        onLogOut: () => dispatch(signOut()),
+        onTokenRefresh: email => dispatch(refreshToken(email)),
+        onUpdatePic: (email, id, picture, token) => dispatch(updateProfilePic(email, id, picture, token))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Details)
@@ -136,7 +234,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#f0f0f0"
     },
     text: {
-        fontFamily: "HelveticaNeue",
         color: "#52575D"
     },
     image: {
@@ -157,8 +254,8 @@ const styles = StyleSheet.create({
         fontWeight: "500"
     },
     profileImage: {
-        width: 200,
-        height: 200,
+        width: 150,
+        height: 150,
         borderRadius: 70,
         overflow: "hidden",
         marginTop: 15
@@ -250,5 +347,20 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 3,
         marginRight: 20
-    }
+    },
+    errorMsg: {
+        color: '#FF0000',
+        fontSize: 14,
+    },
+    button: {
+        alignItems: 'center',
+        marginTop: 50
+    },
+    signIn: {
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
 });

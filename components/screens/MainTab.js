@@ -97,17 +97,7 @@ const HomeStackScreen = ({navigation}) => (
             backgroundColor: '#f0f0f0',
             height: 80
         },
-        headerTintColor: '#03989e',
-        headerBackTitle: (<Text style={{fontSize: 30, margin: 10}}>Israel Z Kollie</Text>),
-        headerRight: () => (
-          <MaterialIcons name="edit" size={26} 
-            color='#777777'
-            style={{
-                margin: 10
-            }}
-            onPress={() => navigation.navigate('Details')}
-            ></MaterialIcons>
-        )
+        headerTintColor: '#03989e'
         }} />
         <HomeStack.Screen name='Notifications' component={Notifications} options={{
           title: 'Share an issue',

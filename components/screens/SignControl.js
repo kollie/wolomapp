@@ -1,18 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import Animated, { 
-  useCode, 
-  cond, 
-  eq, 
-  set, 
+import Animated, {
+  useCode,
+  cond,
+  eq,
+  set,
   interpolate,
   SpringUtils
- } from 'react-native-reanimated'
-import { 
-  withTimingTransition, 
-  onGestureEvent, 
-  withSpringTransition 
+} from 'react-native-reanimated'
+import {
+  withTimingTransition,
+  onGestureEvent,
+  withSpringTransition
 } from 'react-native-redash'
 
 
@@ -24,15 +24,15 @@ import HeaderBackArror from '../HeaderBackArror';
 import HeaderText from '../HeaderText';
 import Signin from '../Signin';
 
-const SignControl = () =>  {
+const SignControl = () => {
 
   const scale = useRef(new Animated.Value(0));
   const scaleAnimation = withTimingTransition(scale.current);
 
 
   const innerLoginY = interpolate(scaleAnimation, {
-    inputRange: [0,1],
-    outputRange: [LOGIN_VIEW_HEIGHT,0]
+    inputRange: [0, 1],
+    outputRange: [LOGIN_VIEW_HEIGHT, 0]
   })
 
   const gestureState = useRef(new Animated.Value(State.UNDETERMINED))
@@ -40,7 +40,7 @@ const SignControl = () =>  {
 
   const backArrowGestureState = useRef(new Animated.Value(State.UNDETERMINED))
   const backArrowGestureHandler = onGestureEvent({ state: backArrowGestureState.current })
-  
+
   const isOpen = useRef(new Animated.Value(0))
   const isOpenAnimation = withSpringTransition(isOpen.current, {
     ...SpringUtils.makeDefaultConfig(),
@@ -49,20 +49,20 @@ const SignControl = () =>  {
   })
 
   const outerLoginY = interpolate(isOpenAnimation, {
-    inputRange: [0,1],
+    inputRange: [0, 1],
     outputRange: [SCREEN_HEIGHT - LOGIN_VIEW_HEIGHT, LOGIN_VIEW_HEIGHT / 2]
   })
 
   const headingOpacity = interpolate(isOpenAnimation, {
-    inputRange: [0,1],
-    outputRange: [1,0]
+    inputRange: [0, 1],
+    outputRange: [1, 0]
   })
 
-  
-  useCode(() => 
-  cond(
-      eq(gestureState.current, State.END), 
-      [cond(eq(isOpen.current,0), set(isOpen.current,1))], 
+
+  useCode(() =>
+    cond(
+      eq(gestureState.current, State.END),
+      [cond(eq(isOpen.current, 0), set(isOpen.current, 1))],
       [gestureState.current]
     )
   )
@@ -72,23 +72,23 @@ const SignControl = () =>  {
 
   useCode(() => cond(eq(backArrowGestureState.current, State.END), [
     set(gestureState.current, State.UNDETERMINED),
-    set(isOpen.current,0)
+    set(isOpen.current, 0)
   ]), [backArrowGestureState.current])
 
   return (
     <View style={styles.container}>
-      <View style={{...styles.logoContainer}}>
+      <View style={{ ...styles.logoContainer }}>
         <Logo scale={scaleAnimation} />
-        <Text style={{ 
-          fontSize: 16, 
-          margin: 30, 
+        <Text style={{
+          fontSize: 16,
+          margin: 30,
           fontWeight: '600',
           color: '#777777'
-           }}>Keeping your community clean and safe</Text>
+        }}>Keeping your community clean and safe</Text>
       </View>
-      <HeaderBackArror 
-      isOpenAnimation={isOpenAnimation} 
-      gestureHandler={{...backArrowGestureHandler}}
+      <HeaderBackArror
+        isOpenAnimation={isOpenAnimation}
+        gestureHandler={{ ...backArrowGestureHandler }}
       />
       <HeaderText isOpenAnimation={isOpenAnimation} />
       <Signin isOpenAnimation={isOpenAnimation} />
@@ -107,12 +107,13 @@ const SignControl = () =>  {
           transform: [{ translateY: innerLoginY }],
           opacity: headingOpacity
         }}>
-          <TapGestureHandler { ...gestureHandler }>
-            <Animated.View style={{ 
-              margin: 25, 
-              flex: 1, 
-              alignItems: 'center', 
-              justifyContent: 'center' }}>
+          <TapGestureHandler {...gestureHandler}>
+            <Animated.View style={{
+              margin: 25,
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
               <View style={{
                 borderWidth: 0.5,
                 borderColor: '#fff',

@@ -13,19 +13,19 @@ import * as Animatable from 'react-native-animatable'
 
 const PickLocation = (props) => {
 
-    let map;
-    
-    const [location, setLocation] = useState({
-        latitude: 6.300774,
-        longitude: -10.797160,
-        latitudeDelta: 0.0122,
-        longitudeDelta:
-            Dimensions.get("window").width /
-            Dimensions.get("window").height *
-            0.0122,
-        locationChosen: false
-    })
-  
+  let map;
+
+  const [location, setLocation] = useState({
+    latitude: 6.300774,
+    longitude: -10.797160,
+    latitudeDelta: 0.0122,
+    longitudeDelta:
+      Dimensions.get("window").width /
+      Dimensions.get("window").height *
+      0.0122,
+    locationChosen: false
+  })
+
   const pickLocationHandler = event => {
     const coords = event.nativeEvent.coordinate;
 
@@ -36,16 +36,16 @@ const PickLocation = (props) => {
     });
 
     setLocation({
-        ...location,
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        locationChosen: true
+      ...location,
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+      locationChosen: true
     })
     props.onLocationPick({
       latitude: coords.latitude,
       longitude: coords.longitude
     });
-    console.log(coords)
+    // console.log(coords)
   };
 
   const getLocationHandler = () => {
@@ -60,38 +60,39 @@ const PickLocation = (props) => {
       };
       pickLocationHandler(coordsEvent);
     },
-  err => {
-    console.log(err);
-    alert("There was an error fetching your location!");
-  })
+      err => {
+        console.log(err);
+        alert("There was an error fetching your location!");
+      })
   }
 
   useEffect(() => {
     setTimeout(() => {
       getLocationHandler()
     }, 1000)
-  },[])
+  }, [])
 
-    let marker = null;
+  let marker = null;
 
-    if (location.locationChosen) {
-      marker = <MapView.Marker coordinate={location} />;
-    }
+  if (location.locationChosen) {
+    marker = <MapView.Marker coordinate={location} />;
+  }
 
-    return (
-      <View style={styles.container}>
-        <MapView
-          initialRegion={location}
-          style={styles.map}
-          onPress={pickLocationHandler}
-          ref={ref => map = ref}
-        >
-          {marker}
-        </MapView>
-        <Animatable.View
-         style={{...styles.button,
-          alignItems: 'center', 
-          justifyContent: 'center', 
+  return (
+    <View style={styles.container}>
+      <MapView
+        initialRegion={location}
+        style={styles.map}
+        onPress={pickLocationHandler}
+        ref={ref => map = ref}
+      >
+        {marker}
+      </MapView>
+      <Animatable.View
+        style={{
+          ...styles.button,
+          alignItems: 'center',
+          justifyContent: 'center',
           height: 40, width: 200,
           borderRadius: 100,
           borderWidth: 0.5,
@@ -100,12 +101,12 @@ const PickLocation = (props) => {
           opacity: 0.7
         }}
         onStartShouldSetResponder={getLocationHandler}
-         >
-           <Text style={{color: '#777777', fontWeight: '700'}}>Set Your Location</Text>
-          {/* <Button title="Locate Me" onPress={getLocationHandler} /> */}
-        </Animatable.View>
-      </View>
-    );
+      >
+        <Text style={{ color: '#777777', fontWeight: '700' }}>Set Your Location</Text>
+        {/* <Button title="Locate Me" onPress={getLocationHandler} /> */}
+      </Animatable.View>
+    </View>
+  );
 }
 
 export default PickLocation

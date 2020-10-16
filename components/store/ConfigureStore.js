@@ -3,10 +3,12 @@ import thunk from "redux-thunk";
 
 import authReducer from "./reducers/AuthReducer";
 import loadingReducer from "./reducers/LoadingReducer";
+import issueReducer from './reducers/IssueReducer'
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  loading: loadingReducer
+  loading: loadingReducer,
+  issues: issueReducer
 });
 
 let composeEnhancers = compose;
