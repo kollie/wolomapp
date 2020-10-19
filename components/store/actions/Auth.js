@@ -316,8 +316,8 @@ export const setIssues = issues => {
 export const signInWithGoogleAsync = async () => {
   try {
     const result = await Google.logInAsync({
-      androidClientId: '385188704290-uo01oincqveb1d8ej9ckjlpoacat8hsu.apps.googleusercontent.com',
-      iosClientId: '385188704290-q225hnqmqffhsk8rp3nkhdrsndpqej40.apps.googleusercontent.com',
+      androidClientId: 'clientIDAndroid',
+      iosClientId: 'clientIDIos',
       scopes: ['profile', 'email'],
     });
 
