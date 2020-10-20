@@ -83,21 +83,10 @@ const MainTabScreen = () => (
       <Tab.Screen
         name="Feed"
         component={HomeStackScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Entypo name="home" color={color} size={30} />
-          ),  
-        }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileStackScreen}
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="done-all" color={color} size={26} />
-          ),
-        }}
       />
     </Tab.Navigator>
 )
