@@ -12,7 +12,7 @@ export const handleAuth = (email, name, picture) => {
 
   return dispatch => {
     dispatch(uiStartLoading());
-    axios.post('http://10.15.15.190:5000/api/users', {
+    axios.post('http://10.15.15.178:5000/api/users', {
       email: email,
       name: name,
       picture: picture,
@@ -25,7 +25,7 @@ export const handleAuth = (email, name, picture) => {
       .then(res => {
         console.log(res.data)
 
-        axios.post('http://10.15.15.190:5000/api/tokens', {}, {
+        axios.post('http://10.15.15.178:5000/api/tokens', {}, {
           headers: { 'Authorization': authHeader }
         }).then((response) => {
 
@@ -41,12 +41,12 @@ export const handleAuth = (email, name, picture) => {
         console.log(error.status)
         if (error.response.data.message === 'please use a different email address') {
 
-          axios.post('http://10.15.15.190:5000/api/tokens', {}, {
+          axios.post('http://10.15.15.178:5000/api/tokens', {}, {
             headers: { 'Authorization': authHeader }
           }).then((response) => {
             console.log(response.data.token)
 
-            axios.get(`http://10.15.15.190:5000/api/users/${response.data.id}`, {
+            axios.get(`http://10.15.15.178:5000/api/users/${response.data.id}`, {
               headers: { 'Authorization': `Bearer ${response.data.token}` }
             }).then((rr) => {
               console.log(rr.data)
@@ -160,7 +160,7 @@ export const createIssue = (email, userId, description, latitude, longitude, pic
   return dispatch => {
     dispatch(uiStartLoading());
     axios.post(
-      'http://10.15.15.190:5000/api/issues',
+      'http://10.15.15.178:5000/api/issues',
       {
         lat: latitude,
         longi: longitude,
@@ -185,12 +185,12 @@ export const refreshToken = (email) => {
 
   return async dispatch => {
 
-    axios.post('http://10.15.15.190:5000/api/tokens', {}, {
+    axios.post('http://10.15.15.178:5000/api/tokens', {}, {
       headers: { 'Authorization': authHeader }
     }).then((response) => {
       console.log(response.data.token)
 
-      axios.get(`http://10.15.15.190:5000/api/users/${response.data.id}`, {
+      axios.get(`http://10.15.15.178:5000/api/users/${response.data.id}`, {
         headers: { 'Authorization': `Bearer ${response.data.token}` }
       }).then(async (rr) => {
         console.log(rr.data)
@@ -240,7 +240,7 @@ export const updateProfilePic = (email, id, picture, token) => {
     dispatch(uiStartLoading());
 
     axios.put(
-      `http://10.15.15.190:5000/api/users/${id}`,
+      `http://10.15.15.178:5000/api/users/${id}`,
       {
         picture: picture,
       },
@@ -260,7 +260,7 @@ export const updateName = (email, id, name) => {
 
   return dispatch => {
     dispatch(uiStartLoading());
-    axios.put(`http://10.15.15.190:5000/api/users/${id}`, {
+    axios.put(`http://10.15.15.178:5000/api/users/${id}`, {
       name: name
     }, {
       headers: {
@@ -282,7 +282,7 @@ export const updateName = (email, id, name) => {
 
 export const getIssues = async (token) => {
 
-  const issues = await axios.get('http://10.15.15.190:5000/api/issues', {
+  const issues = await axios.get('http://10.15.15.178:5000/api/issues', {
     headers: { 'Authorization': `Bearer ${token}` }
   }).catch((e) => {
     console.log(e)
@@ -294,7 +294,7 @@ export const getIssues = async (token) => {
 
 export const getUserIssues = async (token, user_id) => {
 
-  const issues = await axios.get(`http://10.15.15.190:5000/api/issues/${user_id}`, {
+  const issues = await axios.get(`http://10.15.15.178:5000/api/issues/${user_id}`, {
     headers: { 'Authorization': `Bearer ${token}` }
   }).catch((e) => {
     console.log(e)
@@ -316,8 +316,8 @@ export const setIssues = issues => {
 export const signInWithGoogleAsync = async () => {
   try {
     const result = await Google.logInAsync({
-      androidClientId: 'clientIDAndroid',
-      iosClientId: 'clientIDIos',
+      androidClientId: '385188704290-uo01oincqveb1d8ej9ckjlpoacat8hsu.apps.googleusercontent.com',
+      iosClientId: '385188704290-q225hnqmqffhsk8rp3nkhdrsndpqej40.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     });
 
