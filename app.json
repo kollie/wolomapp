@@ -17,7 +17,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.techsol.wolomapp",
+      "buildNumber": "0.0.1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow Wolomapp to use your camera",
+        "NSPhotoLibraryUsageDescription": "Allow Wolomapp to access your photo library",
+        "NSPhotoLibraryAddUsageDescription": "Allow Wolomapp to access your photo library"
+      }
+    },
+    "android": {
+      "package": "com.techsol.wolomapp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
