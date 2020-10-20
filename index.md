@@ -3,11 +3,13 @@ title: Building a location based app for sewage and garbage alert
 sidebar_label: Wolomapp Tutorial
 ---
 
+# Building a location based app for sewage and garbage alert
+
 October 20, 2020
 
 By [Israel Kollie](https://www.linkedin.com/in/israel-z-kollie-a0395b95/)
 
-<img src="/rust-tutorial/img/hero.png" width="100%" />
+<img src="/assets/into screen.jpeg" width="100%" />
 <br/><br/>
 
 Ok, so I get up one morning and hearing outrageous outburst of people both on 
@@ -46,7 +48,7 @@ Reporting garbage overflow, first time user.
 
 Here in action:
 
-<img src="/rust-tutorial/img/running_app.gif" width="100%" />
+<img src="./assets/wolomapp.gif" width="100%" />
 
 ## Flow
 
@@ -496,7 +498,11 @@ The image received is in base64 and will be converted to jpg. I have changed the
 I'm using react-native-maps to display the location on a map.
 
 You can find the repo for the full frontend code [here]()
+
+
 You can find the repo for the full backend api code [here]()
+
+
 Useful link on create an api with flask [here]()
 
 
