@@ -1,7 +1,3 @@
----
-title: Building a location based app for sewage and garbage alert
-sidebar_label: Wolomapp Tutorial
----
 
 # Building a location based app for sewage and garbage alert
 
@@ -497,13 +493,13 @@ The image received is in base64 and will be converted to jpg. I have changed the
 
 I'm using react-native-maps to display the location on a map.
 
-You can find the repo for the full frontend code [here]()
+You can find the repo for the full frontend code [here](https://github.com/kollie/wolomapp)
 
 
-You can find the repo for the full backend api code [here]()
+You can find the repo for the full backend api code [here](https://github.com/kollie/wolomapp-backend)
 
 
-Useful link on create an api with flask [here]()
+Useful link on how create an api with flask [here](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xxiii-application-programming-interfaces-apis)
 
 
 The api will be deployed on [Heroku](http://heroku.com/)
