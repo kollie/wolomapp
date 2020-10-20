@@ -84,22 +84,11 @@ const MainTabScreen = () => (
         name="Feed"
         component={HomeStackScreen}
         options={{
-          tabBarLabel: '',
           tabBarIcon: ({ color }) => (
             <Entypo name="home" color={color} size={30} />
           ),  
         }}
       />
-      {/* <Tab.Screen
-        name="Notifications"
-        component={Modal}
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: ({ color }) => (
-            <Feather name="plus-square" color={color} size={26} />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileStackScreen}
