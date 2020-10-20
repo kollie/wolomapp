@@ -9,7 +9,7 @@ October 20, 2020
 
 By [Israel Kollie](https://www.linkedin.com/in/israel-z-kollie-a0395b95/)
 
-<img src="/assets/into screen.jpeg" width="100%" />
+<img src="./assets/into screen.jpeg" width="100%" />
 <br/><br/>
 
 Ok, so I get up one morning and hearing outrageous outburst of people both on 
