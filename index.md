@@ -458,10 +458,9 @@ The image received is in base64 and will be converted to jpg. I have changed the
                     </Text>
                   }
                   left={props =>
-                    item.user.picture != null ?
-                      <Avatar.Image {...props} source={{
-                        uri: item.user.picture || `${s3URL}/${item.user.picture}`
-                      }} />
+                    item.user.picture != null ? <Avatar.Image {...props} source=
+                    {{uri: item.user.picture || `${s3URL}/{item.user.picture}`}}
+                    />
                       :
                       <Avatar.Icon
                         {...props}
