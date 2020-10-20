@@ -469,7 +469,7 @@ The image received is in base64 and will be converted to jpg. I have changed the
                   <MapView.Marker coordinate={{ latitude: parseFloat(item.lat), longitude: parseFloat(item.longi) }} />
                 </MapView>
 
-                <Card.Cover source={{ uri: `s3URL/${item.picture}` }}
+                <Card.Cover source={{ uri: {item.picture` }}
                   style={{ marginTop: 1 }}
                 />
                 <Card.Actions>
