@@ -452,21 +452,7 @@ The image received is in base64 and will be converted to jpg. I have changed the
                 style={{ backgroundColor: '#f1f1f1', marginBottom: 10 }}
               >
                 <Card.Title title={item.user.name}
-                  subtitle={
-                    <Text>
-                      {item.user.address != null ? item.user.address : 'Shared from community'} | {moment(item.timestamp).fromNow()} <FontAwesome5 name="times-circle" size={10} color="#ff5757" />
-                    </Text>
-                  }
-                  left={props =>
-                    item.user.picture != null ? <Avatar.Image {...props} source=
-                    {{uri: item.user.picture || `${s3URL}/{item.user.picture}`}}
-                    />
-                      :
-                      <Avatar.Icon
-                        {...props}
-                        style={{ backgroundColor: '#03989e' }}
-                        icon="account-circle" />
-                  } />
+                 />
 
                 <MapView
                   initialRegion={{
