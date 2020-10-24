@@ -108,6 +108,8 @@ export const retrieveToken = () => {
 
     dispatch(uiStopLoading());
     dispatch({ type: RETRIEVE_TOKEN, token: userToken, id: email, name: name, picture: picture, userId: id, count: count })
+    
+    refreshToken(email)
   }
 };
 
