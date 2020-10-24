@@ -18,6 +18,12 @@ Install dependency
 npm install
 ```
 
+Run the project
+
+```
+npm start
+```
+
 Test live project on your mobile using the QR code in your terminal
 
 Be sure to run the backend to experience the full flow
