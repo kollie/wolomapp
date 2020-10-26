@@ -6,7 +6,7 @@ Clone the repo
 git clone git@github.com:kollie/wolomapp.git
 ```
 
-Install expo cli glopally
+Install expo cli globally
 
 ```
 npm install -g expo-cli
